@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoElite - Premium Portfolio Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="15" stroke="url(#gradient)" stroke-width="2"/>
+                        <path d="M16 8L20 12L16 16L12 12L16 8Z" fill="url(#gradient)"/>
+                        <path d="M16 16L20 20L16 24L12 20L16 16Z" fill="url(#gradient)" opacity="0.6"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">CryptoElite</span>
+                </div>
+                <nav class="nav">
+                    <a href="#" class="nav-link active">Portfolio</a>
+                    <a href="#" class="nav-link">Markets</a>
+                    <a href="#" class="nav-link">Analytics</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Live</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="hero-section">
+                <h1 class="hero-title">Portfolio Overview</h1>
+                <p class="hero-subtitle">Track your crypto investments in real-time</p>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card glass-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Total Portfolio Value</span>
+                        <span class="stat-badge positive">+24h</span>
+                    </div>
+                    <div class="stat-value">
+                        <span class="currency-symbol">$</span>
+                        <span id="total-value" class="counter">0.00</span>
+                    </div>
+                    <div class="stat-change">
+                        <span id="total-change" class="change-amount positive">+0.00</span>
+                        <span id="total-change-percent" class="change-percent">(+0.00%)</span>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Today's Profit/Loss</span>
+                        <span class="stat-badge">24h</span>
+                    </div>
+                    <div class="stat-value">
+                        <span class="currency-symbol">$</span>
+                        <span id="daily-pnl" class="counter">0.00</span>
+                    </div>
+                    <div class="stat-change">
+                        <span id="daily-pnl-percent" class="change-percent">0.00%</span>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Total Holdings</span>
+                        <span class="stat-badge">Live</span>
+                    </div>
+                    <div class="stat-value">
+                        <span id="total-holdings">3</span>
+                        <span class="stat-unit">Assets</span>
+                    </div>
+                    <div class="stat-change">
+                        <span class="change-label">Diversified Portfolio</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="market-section">
+                <div class="section-header">
+                    <h2 class="section-title">Live Market Prices</h2>
+                    <div class="refresh-indicator">
+                        <span class="refresh-dot"></span>
+                        <span class="refresh-text">Auto-refresh: 30s</span>
+                    </div>
+                </div>
+                
+                <div class="market-grid">
+                    <div class="market-card glass-card" data-coin="bitcoin">
+                        <div class="market-card-header">
+                            <div class="coin-info">
+                                <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="Bitcoin" class="coin-icon">
+                                <div class="coin-details">
+                                    <span class="coin-name">Bitcoin</span>
+                                    <span class="coin-symbol">BTC</span>
+                                </div>
+                            </div>
+                            <div class="price-pulse"></div>
+                        </div>
+                        <div class="market-card-body">
+                            <div class="current-price">
+                                <span class="price-symbol">$</span>
+                                <span id="btc-price" class="price-value">0.00</span>
+                            </div>
+                            <div class="price-change">
+                                <span id="btc-change" class="change-24h">0.00%</span>
+                                <svg class="change-arrow" width="12" height="12" viewBox="0 0 12 12">
+                                    <path d="M6 2L10 8H2L6 2Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="market-card glass-card" data-coin="ethereum">
+                        <div class="market-card-header">
+                            <div class="coin-info">
+                                <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="Ethereum" class="coin-icon">
+                                <div class="coin-details">
+                                    <span class="coin-name">Ethereum</span>
+                                    <span class="coin-symbol">ETH</span>
+                                </div>
+                            </div>
+                            <div class="price-pulse"></div>
+                        </div>
+                        <div class="market-card-body">
+                            <div class="current-price">
+                                <span class="price-symbol">$</span>
+                                <span id="eth-price" class="price-value">0.00</span>
+                            </div>
+                            <div class="price-change">
+                                <span id="eth-change" class="change-24h">0.00%</span>
+                                <svg class="change-arrow" width="12" height="12" viewBox="0 0 12 12">
+                                    <path d="M6 2L10 8H2L6 2Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="market-card glass-card" data-coin="solana">
+                        <div class="market-card-header">
+                            <div class="coin-info">
+                                <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="Solana" class="coin-icon">
+                                <div class="coin-details">
+                                    <span class="coin-name">Solana</span>
+                                    <span class="coin-symbol">SOL</span>
+                                </div>
+                            </div>
+                            <div class="price-pulse"></div>
+                        </div>
+                        <div class="market-card-body">
+                            <div class="current-price">
+                                <span class="price-symbol">$</span>
+                                <span id="sol-price" class="price-value">0.00</span>
+                            </div>
+                            <div class="price-change">
+                                <span id="sol-change" class="change-24h">0.00%</span>
+                                <svg class="change-arrow" width="12" height="12" viewBox="0 0 12 12">
+                                    <path d="M6 2L10 8H2L6 2Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Portfolio</h2>
+                    <button class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Add Asset
+                    </button>
+                </div>
+
+                <div class="portfolio-grid">
+                    <div class="portfolio-card glass-card">
+                        <div class="portfolio-header">
+                            <div class="portfolio-coin">
+                                <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="Bitcoin" class="portfolio-icon">
+                                <div class="portfolio-info">
+                                    <span class="portfolio-name">Bitcoin</span>
+                                    <span class="portfolio-symbol">BTC</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-body">
+                            <div class="portfolio-input-group">
+                                <label class="input-label">Amount Held</label>
+                                <input type="number" id="btc-amount" class="portfolio-input" placeholder="0.00" step="0.0001">
+                            </div>
+                            <div class="portfolio-stats">
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">Value</span>
+                                    <span id="btc-value" class="portfolio-stat-value">$0.00</span>
+                                </div>
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">P/L</span>
+                                    <span id="btc-pnl" class="portfolio-stat-value pnl">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card glass-card">
+                        <div class="portfolio-header">
+                            <div class="portfolio-coin">
+                                <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="Ethereum" class="portfolio-icon">
+                                <div class="portfolio-info">
+                                    <span class="portfolio-name">Ethereum</span>
+                                    <span class="portfolio-symbol">ETH</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-body">
+                            <div class="portfolio-input-group">
+                                <label class="input-label">Amount Held</label>
+                                <input type="number" id="eth-amount" class="portfolio-input" placeholder="0.00" step="0.001">
+                            </div>
+                            <div class="portfolio-stats">
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">Value</span>
+                                    <span id="eth-value" class="portfolio-stat-value">$0.00</span>
+                                </div>
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">P/L</span>
+                                    <span id="eth-pnl" class="portfolio-stat-value pnl">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card glass-card">
+                        <div class="portfolio-header">
+                            <div class="portfolio-coin">
+                                <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="Solana" class="portfolio-icon">
+                                <div class="portfolio-info">
+                                    <span class="portfolio-name">Solana</span>
+                                    <span class="portfolio-symbol">SOL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-body">
+                            <div class="portfolio-input-group">
+                                <label class="input-label">Amount Held</label>
+                                <input type="number" id="sol-amount" class="portfolio-input" placeholder="0.00" step="0.01">
+                            </div>
+                            <div class="portfolio-stats">
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">Value</span>
+                                    <span id="sol-value" class="portfolio-stat-value">$0.00</span>
+                                </div>
+                                <div class="portfolio-stat">
+                                    <span class="portfolio-stat-label">P/L</span>
+                                    <span id="sol-pnl" class="portfolio-stat-value pnl">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <h2 class="section-title">Bitcoin Price Chart</h2>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-range="24h">24H</button>
+                        <button class="chart-btn" data-range="7d">7D</button>
+                        <button class="chart-btn" data-range="30d">30D</button>
+                    </div>
+                </div>
+                <div class="chart-container glass-card">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">© 2024 CryptoElite. Premium Portfolio Tracking.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Terms</a>
+                    <a href="#" class="footer-link">API</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

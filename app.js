@@ -1,11 +1,20 @@
 const API_KEY = 'CG-fSBt6uw24Fvnzkqz6HoBfZT2';
 const API_BASE = 'https://api.coingecko.com/api/v3';
 
+// Fallback demo data
+const DEMO_PRICES = {
+    bitcoin: { current: 65420.50, previous: 64850.25, change24h: 2.34 },
+    ethereum: { current: 3245.75, previous: 3180.90, change24h: 1.87 },
+    solana: { current: 142.30, previous: 138.75, change24h: 2.56 }
+};
+
 let prices = {
     bitcoin: { current: 0, previous: 0, change24h: 0 },
     ethereum: { current: 0, previous: 0, change24h: 0 },
     solana: { current: 0, previous: 0, change24h: 0 }
 };
+
+let isUsingDemoData = false;
 
 let portfolio = {
     bitcoin: { amount: 0, avgPrice: 0 },
@@ -18,23 +27,76 @@ let priceHistory = [];
 
 async function fetchPrices() {
     try {
-        const response = await fetch(
-            `${API_BASE}/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true`,
-            { headers: { 'x-cg-demo-api-key': API_KEY } }
-        );
-        const data = await response.json();
+        // Try public API first (no auth required)
+        let response;
+        let data;
         
-        Object.keys(data).forEach(coin => {
-            prices[coin].previous = prices[coin].current;
-            prices[coin].current = data[coin].usd;
-            prices[coin].change24h = data[coin].usd_24h_change;
-        });
+        try {
+            response = await fetch(
+                `${API_BASE}/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            data = await response.json();
+            
+            // Validate data structure
+            if (!data.bitcoin || !data.ethereum || !data.solana) {
+                throw new Error('Invalid data structure received');
+            }
+            
+            // Update prices with live data
+            Object.keys(data).forEach(coin => {
+                if (prices[coin]) {
+                    prices[coin].previous = prices[coin].current;
+                    prices[coin].current = data[coin].usd;
+                    prices[coin].change24h = data[coin].usd_24h_change || 0;
+                }
+            });
+            
+            isUsingDemoData = false;
+            updateStatusIndicator('Live');
+            
+        } catch (apiError) {
+            console.warn('Live API failed, using demo data:', apiError);
+            
+            // Use demo data as fallback
+            Object.keys(DEMO_PRICES).forEach(coin => {
+                prices[coin].previous = prices[coin].current;
+                prices[coin].current = DEMO_PRICES[coin].current;
+                prices[coin].change24h = DEMO_PRICES[coin].change24h;
+            });
+            
+            isUsingDemoData = true;
+            updateStatusIndicator('Demo');
+        }
         
         updatePrices();
         updatePortfolio();
         animatePriceUpdate();
+        
     } catch (error) {
-        console.error('Error fetching prices:', error);
+        console.error('Critical error in fetchPrices:', error);
+        
+        // Last resort: use demo data
+        if (!isUsingDemoData) {
+            Object.keys(DEMO_PRICES).forEach(coin => {
+                prices[coin] = { ...DEMO_PRICES[coin] };
+            });
+            isUsingDemoData = true;
+            updateStatusIndicator('Demo');
+            updatePrices();
+            updatePortfolio();
+        }
     }
 }
 
@@ -42,13 +104,42 @@ async function fetchPriceHistory(days = 1) {
     try {
         const response = await fetch(
             `${API_BASE}/coins/bitcoin/market_chart?vs_currency=usd&days=${days}`,
-            { headers: { 'x-cg-demo-api-key': API_KEY } }
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }
         );
-        const data = await response.json();
-        priceHistory = data.prices;
-        updateChart();
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.prices && Array.isArray(data.prices)) {
+                priceHistory = data.prices;
+                updateChart();
+                return;
+            }
+        }
+        
+        throw new Error('Invalid response');
+        
     } catch (error) {
-        console.error('Error fetching price history:', error);
+        console.warn('Price history API failed, using demo data:', error);
+        
+        // Generate demo price history
+        const now = Date.now();
+        const interval = (days * 24 * 60 * 60 * 1000) / 100; // 100 data points
+        const basePrice = DEMO_PRICES.bitcoin.current;
+        
+        priceHistory = Array.from({ length: 100 }, (_, i) => {
+            const timestamp = now - (99 - i) * interval;
+            const variation = (Math.random() - 0.5) * 0.1; // ±5% variation
+            const price = basePrice * (1 + variation);
+            return [timestamp, price];
+        });
+        
+        updateChart();
     }
 }
 
@@ -186,9 +277,9 @@ function initChart() {
                     display: false
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(26, 27, 35, 0.9)',
-                    titleColor: '#ffffff',
-                    bodyColor: '#9ca3af',
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#1a1b23',
+                    bodyColor: '#6b7280',
                     borderColor: 'rgba(0, 102, 255, 0.15)',
                     borderWidth: 1,
                     padding: 12,
@@ -203,7 +294,7 @@ function initChart() {
             scales: {
                 x: {
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.03)',
+                        color: 'rgba(0, 0, 0, 0.05)',
                         drawBorder: false
                     },
                     ticks: {
@@ -213,7 +304,7 @@ function initChart() {
                 },
                 y: {
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.03)',
+                        color: 'rgba(0, 0, 0, 0.05)',
                         drawBorder: false
                     },
                     ticks: {
@@ -267,6 +358,24 @@ function loadFromLocalStorage() {
         document.getElementById('btc-amount').value = data.bitcoin || '';
         document.getElementById('eth-amount').value = data.ethereum || '';
         document.getElementById('sol-amount').value = data.solana || '';
+    }
+}
+
+function updateStatusIndicator(status) {
+    const statusText = document.querySelector('.status-text');
+    const statusDot = document.querySelector('.status-dot');
+    const statusIndicator = document.querySelector('.status-indicator');
+    
+    if (statusText) statusText.textContent = status;
+    
+    if (status === 'Live') {
+        statusIndicator.style.background = 'rgba(16, 185, 129, 0.1)';
+        statusIndicator.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+        statusDot.style.background = 'var(--success)';
+    } else {
+        statusIndicator.style.background = 'rgba(249, 115, 22, 0.1)';
+        statusIndicator.style.borderColor = 'rgba(249, 115, 22, 0.2)';
+        statusDot.style.background = '#f97316';
     }
 }
 

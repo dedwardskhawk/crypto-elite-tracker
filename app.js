@@ -152,8 +152,8 @@ function initChart() {
     const ctx = document.getElementById('priceChart').getContext('2d');
     
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(0, 212, 255, 0.3)');
-    gradient.addColorStop(1, 'rgba(0, 212, 255, 0)');
+    gradient.addColorStop(0, 'rgba(0, 102, 255, 0.2)');
+    gradient.addColorStop(1, 'rgba(0, 102, 255, 0)');
     
     priceChart = new Chart(ctx, {
         type: 'line',
@@ -162,14 +162,14 @@ function initChart() {
             datasets: [{
                 label: 'Bitcoin Price',
                 data: [],
-                borderColor: '#00d4ff',
+                borderColor: '#0066ff',
                 backgroundColor: gradient,
                 borderWidth: 2,
                 tension: 0.4,
                 fill: true,
                 pointRadius: 0,
                 pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#00d4ff',
+                pointHoverBackgroundColor: '#0066ff',
                 pointHoverBorderColor: '#ffffff',
                 pointHoverBorderWidth: 2
             }]
@@ -189,7 +189,7 @@ function initChart() {
                     backgroundColor: 'rgba(26, 27, 35, 0.9)',
                     titleColor: '#ffffff',
                     bodyColor: '#9ca3af',
-                    borderColor: 'rgba(0, 212, 255, 0.2)',
+                    borderColor: 'rgba(0, 102, 255, 0.15)',
                     borderWidth: 1,
                     padding: 12,
                     displayColors: false,

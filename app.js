@@ -243,8 +243,8 @@ function initChart() {
     const ctx = document.getElementById('priceChart').getContext('2d');
     
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(0, 102, 255, 0.2)');
-    gradient.addColorStop(1, 'rgba(0, 102, 255, 0)');
+    gradient.addColorStop(0, 'rgba(0, 212, 255, 0.3)');
+    gradient.addColorStop(1, 'rgba(0, 212, 255, 0)');
     
     priceChart = new Chart(ctx, {
         type: 'line',
@@ -253,14 +253,14 @@ function initChart() {
             datasets: [{
                 label: 'Bitcoin Price',
                 data: [],
-                borderColor: '#0066ff',
+                borderColor: '#00d4ff',
                 backgroundColor: gradient,
                 borderWidth: 2,
                 tension: 0.4,
                 fill: true,
                 pointRadius: 0,
                 pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#0066ff',
+                pointHoverBackgroundColor: '#00d4ff',
                 pointHoverBorderColor: '#ffffff',
                 pointHoverBorderWidth: 2
             }]
@@ -277,10 +277,10 @@ function initChart() {
                     display: false
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    titleColor: '#1a1b23',
-                    bodyColor: '#6b7280',
-                    borderColor: 'rgba(0, 102, 255, 0.15)',
+                    backgroundColor: 'rgba(26, 27, 35, 0.95)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#a0a0a0',
+                    borderColor: 'rgba(0, 212, 255, 0.2)',
                     borderWidth: 1,
                     padding: 12,
                     displayColors: false,
@@ -294,21 +294,21 @@ function initChart() {
             scales: {
                 x: {
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
+                        color: 'rgba(255, 255, 255, 0.05)',
                         drawBorder: false
                     },
                     ticks: {
-                        color: '#6b7280',
+                        color: '#a0a0a0',
                         maxTicksLimit: 6
                     }
                 },
                 y: {
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
+                        color: 'rgba(255, 255, 255, 0.05)',
                         drawBorder: false
                     },
                     ticks: {
-                        color: '#6b7280',
+                        color: '#a0a0a0',
                         callback: function(value) {
                             return '$' + value.toLocaleString();
                         }
@@ -369,13 +369,13 @@ function updateStatusIndicator(status) {
     if (statusText) statusText.textContent = status;
     
     if (status === 'Live') {
-        statusIndicator.style.background = 'rgba(16, 185, 129, 0.1)';
-        statusIndicator.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+        statusIndicator.style.background = 'rgba(0, 255, 136, 0.1)';
+        statusIndicator.style.borderColor = 'rgba(0, 255, 136, 0.2)';
         statusDot.style.background = 'var(--success)';
     } else {
-        statusIndicator.style.background = 'rgba(249, 115, 22, 0.1)';
-        statusIndicator.style.borderColor = 'rgba(249, 115, 22, 0.2)';
-        statusDot.style.background = '#f97316';
+        statusIndicator.style.background = 'rgba(255, 170, 0, 0.1)';
+        statusIndicator.style.borderColor = 'rgba(255, 170, 0, 0.2)';
+        statusDot.style.background = '#ffaa00';
     }
 }
 

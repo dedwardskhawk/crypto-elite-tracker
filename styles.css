@@ -1,20 +1,20 @@
 :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --bg-card: #ffffff;
-    --accent-primary: #0066ff;
-    --accent-secondary: #004fc4;
-    --text-primary: #1a1b23;
-    --text-secondary: #6b7280;
-    --text-muted: #9ca3af;
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --border-color: rgba(0, 0, 0, 0.06);
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --shadow-glow: 0 0 20px rgba(0, 102, 255, 0.1);
+    --bg-primary: #0a0b0d;
+    --bg-secondary: #12131a;
+    --bg-card: #1a1b23;
+    --accent-primary: #00d4ff;
+    --accent-secondary: #0099cc;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --text-muted: #606060;
+    --success: #00ff88;
+    --danger: #ff3366;
+    --warning: #ffaa00;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.2);
     --transition-fast: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -33,9 +33,9 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     background-image: 
-        radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 79, 196, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(0, 102, 255, 0.015) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 153, 204, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(0, 212, 255, 0.02) 0%, transparent 50%);
 }
 
 .app-container {
@@ -48,11 +48,12 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
+    background: rgba(26, 27, 35, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid var(--border-color);
     animation: slideDown 0.5s ease-out;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes slideDown {
@@ -114,12 +115,12 @@ body {
 
 .nav-link:hover {
     color: var(--text-primary);
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .nav-link.active {
     color: var(--accent-primary);
-    background: rgba(0, 102, 255, 0.08);
+    background: rgba(0, 212, 255, 0.1);
 }
 
 .header-actions {
@@ -133,9 +134,9 @@ body {
     align-items: center;
     gap: 8px;
     padding: 6px 12px;
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(0, 255, 136, 0.1);
     border-radius: 20px;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.2);
 }
 
 .status-dot {
@@ -204,15 +205,16 @@ body {
 }
 
 .glass-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-color);
+    background: rgba(26, 27, 35, 0.6);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 24px;
     transition: var(--transition-fast);
     position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .glass-card::before {
@@ -264,16 +266,18 @@ body {
 
 .stat-badge {
     padding: 4px 8px;
-    background: rgba(0, 102, 255, 0.08);
+    background: rgba(0, 212, 255, 0.1);
     color: var(--accent-primary);
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 600;
+    border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
 .stat-badge.positive {
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(0, 255, 136, 0.1);
     color: var(--success);
+    border: 1px solid rgba(0, 255, 136, 0.2);
 }
 
 .stat-value {
@@ -577,7 +581,7 @@ body {
 
 .portfolio-input {
     padding: 10px 12px;
-    background: var(--bg-secondary);
+    background: rgba(18, 19, 26, 0.6);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
@@ -589,7 +593,7 @@ body {
 .portfolio-input:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15), var(--shadow-glow);
 }
 
 .portfolio-stats {
@@ -649,14 +653,16 @@ body {
 }
 
 .chart-btn:hover {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .chart-btn.active {
-    background: rgba(0, 102, 255, 0.08);
+    background: rgba(0, 212, 255, 0.1);
     border-color: var(--accent-primary);
     color: var(--accent-primary);
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.2);
 }
 
 .chart-container {
@@ -671,8 +677,9 @@ body {
 
 .footer {
     margin-top: auto;
-    background: var(--bg-secondary);
-    backdrop-filter: blur(10px);
+    background: rgba(18, 19, 26, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid var(--border-color);
 }
 
